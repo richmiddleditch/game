@@ -14,7 +14,7 @@ define("Canvas", ['Config', 'PubSub'], function(Config, PubSub) {
     t: null,
     layers: [],
     drawToken: null,
-    
+        
     init: function() {
       var self = this;
       this.drawToken = PubSub.subscribe('loop', function(msg, data) { self.draw(msg, data) });
@@ -40,7 +40,9 @@ define("Canvas", ['Config', 'PubSub'], function(Config, PubSub) {
       // publish frame event
       this.el.width = 0;
       this.el.width = Config.width;
+      Config.newTime = new Date().getTime();
       PubSub.publishSync('loop', this.ctx);
+      Config.oldTime = Config.newTime;
       this.setTimer();
     },
     

@@ -17,12 +17,16 @@ define('Config', function(){
     KEYBOARD_RIGHT: 39,
     KEYBOARD_DOWN: 40,
     
-    turningRate: 2,
+    turningRate: 0.2,
     friction: 0.99,
-    maxSpeed: 10,
+    maxSpeed: 0.75,
     minSpeed: 0,
-    acceleration: 0.5,
-    decceleration: 0.1
+    acceleration: 0.003,
+    decceleration: 0.001,
+    
+    // Timer
+    oldTime: 0,
+    newTime: 0
   };
   
   return Config;

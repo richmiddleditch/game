@@ -56,17 +56,20 @@ define("Ship", ['Config', 'PubSub'], function(Config, PubSub) {
     	},
     	
     	move: function() {
+    		
+    		var timeFrame = Config.newTime - Config.oldTime;
+    		
     		this.speed *= Config.friction;
     		
     		// Speed
     		if(this.keyPressed.indexOf(Config.KEYBOARD_UP) > -1) {
-    			this.speed -= Config.acceleration;
+    			this.speed -= (Config.acceleration * timeFrame);
     			if(this.speed < -Config.maxSpeed) {
     				this.speed = -Config.maxSpeed;
     			}
     		}
     		if(this.keyPressed.indexOf(Config.KEYBOARD_DOWN) > -1) {
-    			this.speed += Config.decceleration;
+    			this.speed += (Config.decceleration * timeFrame);
     			if(this.speed > Config.minSpeed) {
     				this.speed = Config.minSpeed;
     			}
@@ -77,19 +80,19 @@ define("Ship", ['Config', 'PubSub'], function(Config, PubSub) {
     			if(this.rotation <= -360) {
     				this.rotation = 0;
     			} else {
-    				this.rotation -= (Math.abs(this.speed) / 2) + Config.turningRate;
+    				this.rotation -= ((Math.abs(this.speed) / 2) + Config.turningRate) * timeFrame;
     			}
     		}
     		if(this.keyPressed.indexOf(Config.KEYBOARD_RIGHT) > -1) {
     			if(this.rotation >= 360) {
     				this.rotation = 0;
     			} else {
-    				this.rotation += (Math.abs(this.speed) / 2) + Config.turningRate;
+    				this.rotation += ((Math.abs(this.speed) / 2) + Config.turningRate) * timeFrame;
     			}
     		}
     		
-    		this.position[0] -= this.speed * Math.sin(this.rotation * Math.PI / 180);
-    		this.position[1] += this.speed * Math.cos(this.rotation * Math.PI / 180);
+    		this.position[0] -= (this.speed * Math.sin(this.rotation * Math.PI / 180)) * timeFrame;
+    		this.position[1] += (this.speed * Math.cos(this.rotation * Math.PI / 180)) * timeFrame;
     		
     		this.position[0] = this.wrap(this.position[0], Config.width);
     		this.position[1] = this.wrap(this.position[1], Config.height);
